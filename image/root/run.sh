@@ -1,3 +1,4 @@
+#!/bin/sh
 # This file is part of sshd.
 #
 #    sshd is free software: you can redistribute it and/or modify
@@ -13,10 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with sshd .  If not, see <http://www.gnu.org/licenses/>.
 
-# SSHD
-
-This sshd image is meant to run authentication for a cloud9 image.
-It can receive ssh connections and forward ports for the cloud9 image.
-
-
-   
+mkdir /var/opt/docker &&
+    echo 23889 > /var/opt/docker/sshd.counter &&
+    touch /root/.ssh/authorized_keys &&
+    chmod 0600 /root/.ssh/authorized_keys
