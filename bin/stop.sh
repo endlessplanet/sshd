@@ -14,6 +14,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with sshd .  If not, see <http://www.gnu.org/licenses/>.
 
-docker stop $(cat ~/sshd.cid) &&
-    docker rm -fv $(cat ~/sshd.cid) &&
+NETWORK=$(docker \
+    inspect \
+    --format "{{range .NetworkSettings.Networks}}{{.NetworkID}}{{end}}" \
+    $(cat ~/sshd.cid)
+) &&
+    docker container ls --quiet --filter network=${NETWORK} | while read CONTAINER
+    do
+        docker container stop ${CONTAINER} &&
+            docker container rm --force --volumes ${CONTAINER}
+    done 
+    docker network rm ${NETWORK} &&
     rm -f ~/sshd.cid

@@ -11,7 +11,8 @@
 #    GNU General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with sshd .  If not, see <http://www.gnu.org/licenses/>.FROM panubo/sshd
+#    along with sshd .  If not, see <http://www.gnu.org/licenses/>.
+FROM panubo/sshd
 COPY root /opt/docker/
 RUN ["sh", "/opt/docker/run.sh"]
 ENTRYPOINT ["sh", "/opt/docker/entrypoint.sh"]

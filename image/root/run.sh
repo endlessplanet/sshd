@@ -15,6 +15,7 @@
 #    along with sshd .  If not, see <http://www.gnu.org/licenses/>.
 
 mkdir /var/opt/docker &&
+    sed -i "s,#GatewayPorts no,GatewayPorts yes," /etc/ssh/sshd_config &&
     echo 23889 > /var/opt/docker/sshd.counter &&
     touch /root/.ssh/authorized_keys &&
     chmod 0600 /root/.ssh/authorized_keys

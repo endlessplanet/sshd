@@ -14,10 +14,27 @@
 #    You should have received a copy of the GNU General Public License
 #    along with sshd .  If not, see <http://www.gnu.org/licenses/>.
 
-docker \
-    container \
-    run \
-    --detach \
-    --tty \
-    --cidfile ~/sshd.cid \
-    endlessplanet/sshd
+NETWORK=$(docker network create $(uuidgen)) &&
+    docker \
+        container \
+        run \
+        --detach \
+        --tty \
+        --cidfile ~/sshd.cid \
+        --network ${NETWORK} \
+        --hostname sshd \
+        --name sshd \
+        endlessplanet/sshd &&
+    docker \
+        container \
+        run \
+        --detach \
+        --tty \
+        --rm \
+        --env DISPLAY \
+        --volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
+        --device /dev/dri/card0 \
+        --volume /run/user/1000/pulse/native:/tmp/pulse:ro \
+        --volume /dev/shm:/home/user/Download \
+        --network ${NETWORK} \
+        sassmann/debian-chromium
